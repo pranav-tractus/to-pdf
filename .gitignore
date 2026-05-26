@@ -20,6 +20,9 @@
 # production
 /build
 
+# local test fixtures
+/test-fixtures
+
 # misc
 .DS_Store
 *.pem

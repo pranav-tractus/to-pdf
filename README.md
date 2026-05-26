@@ -1,36 +1,71 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# to-pdf
 
-## Getting Started
+Convert DOCX and image files to PDF. Runs as a local Next.js web app (drag and drop) or a CLI.
 
-First, run the development server:
+## Prerequisites
+
+- [Node.js](https://nodejs.org/) 20+
+- [LibreOffice](https://www.libreoffice.org/) (required for `.docx` conversion)
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+brew install --cask libreoffice
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+The first DOCX conversion may take several seconds while LibreOffice initializes.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Web app
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+npm install
+npm run dev
+```
 
-## Learn More
+Open [http://localhost:3000](http://localhost:3000).
 
-To learn more about Next.js, take a look at the following resources:
+1. Drop or choose files (DOCX or images: PNG, JPG, JPEG, WebP, GIF, TIFF, BMP).
+2. Click **Choose output folder** (Chrome/Edge). PDFs are written directly into that folder.
+3. Click **Convert all**.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+**Browser notes**
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- Chrome or Edge recommended for the folder picker ([File System Access API](https://developer.mozilla.org/en-US/docs/Web/API/File_System_Access_API)).
+- Safari and other browsers fall back to downloading each PDF.
 
-## Deploy on Vercel
+## CLI
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```bash
+# Single file
+npm run cli -- report.docx -o ~/Desktop/report.pdf
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+# Batch to a directory
+npm run cli -- ./scans/*.png --output-dir ~/Desktop/pdfs
+```
+
+After `npm link` (optional), use `to-pdf` directly:
+
+```bash
+npm link
+to-pdf photo.png -o ~/Desktop/photo.pdf
+```
+
+## Supported formats
+
+| Type   | Extensions                                      |
+|--------|-------------------------------------------------|
+| Word   | `.docx`                                         |
+| Images | `.png`, `.jpg`, `.jpeg`, `.webp`, `.gif`, `.tiff`, `.tif`, `.bmp` |
+
+Max upload size: 50MB per file.
+
+## Scripts
+
+| Command        | Description              |
+|----------------|--------------------------|
+| `npm run dev`  | Start web app (dev)      |
+| `npm run build`| Production build         |
+| `npm run start`| Start production server  |
+| `npm run cli`  | Run CLI via tsx          |
+
+## Local-only
+
+This app is intended to run on your machine (`npm run dev` or `npm start`). Conversion uses LibreOffice and Sharp on the server; deploy to serverless hosts only with extra configuration.
