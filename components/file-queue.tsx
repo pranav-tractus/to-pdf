@@ -5,7 +5,7 @@ import { FileText, Loader2, X } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import type { QueueItem } from "@/lib/convert-client";
+import type { QueueItem } from "@/lib/queue-types";
 
 interface FileQueueProps {
   items: QueueItem[];
