@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 
+import { SiteNav } from "@/components/site-nav";
 import { ThemeProvider } from "@/components/theme-provider";
 import { Toaster } from "@/components/ui/sonner";
 
@@ -35,6 +36,7 @@ export default function RootLayout({
     >
       <body className="min-h-full flex flex-col font-sans">
         <ThemeProvider>
+          <SiteNav />
           {children}
           <Toaster richColors closeButton />
         </ThemeProvider>
