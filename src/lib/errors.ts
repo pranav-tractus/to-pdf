@@ -1,7 +1,13 @@
 export class ConversionError extends Error {
   constructor(
     message: string,
-    public readonly code: "UNSUPPORTED" | "LIBREOFFICE" | "IMAGE" | "UNKNOWN" = "UNKNOWN",
+    public readonly code:
+      | "UNSUPPORTED"
+      | "LIBREOFFICE"
+      | "IMAGE"
+      | "MERGE"
+      | "MERGE_PASSWORD"
+      | "UNKNOWN" = "UNKNOWN",
   ) {
     super(message);
     this.name = "ConversionError";
