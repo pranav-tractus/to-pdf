@@ -20,11 +20,20 @@ npm install
 npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000).
+Open [http://localhost:1500](http://localhost:1500).
 
 1. Drop or choose files (DOCX or images: PNG, JPG, JPEG, WebP, GIF, TIFF, BMP).
 2. Click **Choose output folder** (Chrome/Edge). PDFs are written directly into that folder.
 3. Click **Convert all**.
+
+### Merge PDFs
+
+Open [http://localhost:1500/merge](http://localhost:1500/merge) or use **Merge PDFs** in the nav.
+
+1. Drop or choose at least two PDF files. Drag the handle to reorder (page order in the output).
+2. Set the output filename (defaults to `merged.pdf`).
+3. Choose output folder (or download). Encrypted PDFs prompt for a password in the browser.
+4. Click **Merge PDFs**.
 
 **Browser notes**
 
@@ -48,12 +57,18 @@ npm link
 to-pdf photo.png -o ~/Desktop/photo.pdf
 ```
 
+```bash
+# Merge PDFs (prompts for password if a file is encrypted)
+npm run cli -- merge chapter1.pdf chapter2.pdf -o book.pdf
+```
+
 ## Supported formats
 
 | Type   | Extensions                                      |
 |--------|-------------------------------------------------|
 | Word   | `.docx`                                         |
 | Images | `.png`, `.jpg`, `.jpeg`, `.webp`, `.gif`, `.tiff`, `.tif`, `.bmp` |
+| PDF merge | `.pdf` (2+ files, 50MB each; password-protected PDFs supported) |
 
 Max upload size: 50MB per file.
 
@@ -65,6 +80,7 @@ Max upload size: 50MB per file.
 | `npm run build`| Production build         |
 | `npm run start`| Start production server  |
 | `npm run cli`  | Run CLI via tsx          |
+| `npm test`     | Run Vitest unit tests    |
 
 ## Local-only
 
