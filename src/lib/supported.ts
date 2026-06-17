@@ -11,6 +11,33 @@ export const IMAGE_EXTENSIONS = [
 
 export const DOCX_EXTENSION = ".docx";
 
+export const PDF_EXTENSION = ".pdf";
+
+export const PDF_ACCEPT_ATTRIBUTE = PDF_EXTENSION;
+
+export const MIN_MERGE_PDF_COUNT = 2;
+
+export const DEFAULT_MERGED_FILENAME = "merged.pdf";
+
+const UNSAFE_FILENAME_CHARS = /[/\\?%*:|"<>]/g;
+
+export function isPdfFilename(filename: string): boolean {
+  return getExtension(filename) === PDF_EXTENSION;
+}
+
+/** Ensure a safe .pdf filename for download / FSA save */
+export function normalizeMergedFilename(name: string): string {
+  const trimmed = name.trim();
+  if (!trimmed) return DEFAULT_MERGED_FILENAME;
+
+  const withoutExt = trimmed.replace(/\.pdf$/i, "");
+  const safeBase =
+    withoutExt.replace(UNSAFE_FILENAME_CHARS, "_").replace(/\s+/g, " ").trim() ||
+    "merged";
+
+  return `${safeBase.slice(0, 200)}.pdf`;
+}
+
 export const SUPPORTED_EXTENSIONS = [...IMAGE_EXTENSIONS, DOCX_EXTENSION] as const;
 
 export type SupportedExtension = (typeof SUPPORTED_EXTENSIONS)[number];

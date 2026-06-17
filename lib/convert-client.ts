@@ -1,13 +1,6 @@
 import { pdfOutputName } from "@/src/lib/supported";
 
-export type QueueStatus = "pending" | "converting" | "done" | "error";
-
-export interface QueueItem {
-  id: string;
-  file: File;
-  status: QueueStatus;
-  error?: string;
-}
+export type { QueueItem, QueueStatus } from "@/lib/queue-types";
 
 export async function convertFileViaApi(file: File): Promise<Blob> {
   const formData = new FormData();

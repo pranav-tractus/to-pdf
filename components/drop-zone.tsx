@@ -17,21 +17,30 @@ import { ACCEPT_ATTRIBUTE, isSupportedFilename } from "@/src/lib/supported";
 interface DropZoneProps {
   onFilesAdded: (files: File[]) => void;
   disabled?: boolean;
+  accept?: string;
+  isValidFile?: (filename: string) => boolean;
+  title?: string;
+  description?: string;
 }
 
-export function DropZone({ onFilesAdded, disabled }: DropZoneProps) {
+export function DropZone({
+  onFilesAdded,
+  disabled,
+  accept = ACCEPT_ATTRIBUTE,
+  isValidFile = isSupportedFilename,
+  title = "Drop files here",
+  description = "DOCX and images (PNG, JPG, WebP, GIF, TIFF, BMP). Max 50MB per file.",
+}: DropZoneProps) {
   const inputRef = useRef<HTMLInputElement>(null);
   const [isDragging, setIsDragging] = useState(false);
 
   const addFiles = useCallback(
     (fileList: FileList | null) => {
       if (!fileList?.length) return;
-      const valid = Array.from(fileList).filter((f) =>
-        isSupportedFilename(f.name),
-      );
+      const valid = Array.from(fileList).filter((f) => isValidFile(f.name));
       if (valid.length) onFilesAdded(valid);
     },
-    [onFilesAdded],
+    [isValidFile, onFilesAdded],
   );
 
   const onDrop = useCallback(
@@ -59,10 +68,8 @@ export function DropZone({ onFilesAdded, disabled }: DropZoneProps) {
       onDrop={onDrop}
     >
       <CardHeader>
-        <CardTitle>Drop files here</CardTitle>
-        <CardDescription>
-          DOCX and images (PNG, JPG, WebP, GIF, TIFF, BMP). Max 50MB per file.
-        </CardDescription>
+        <CardTitle>{title}</CardTitle>
+        <CardDescription>{description}</CardDescription>
       </CardHeader>
       <CardContent className="flex flex-col items-center gap-4 py-8">
         <Upload className="size-10 text-muted-foreground" />
@@ -71,7 +78,7 @@ export function DropZone({ onFilesAdded, disabled }: DropZoneProps) {
           type="file"
           className="hidden"
           multiple
-          accept={ACCEPT_ATTRIBUTE}
+          accept={accept}
           disabled={disabled}
           onChange={(e) => {
             addFiles(e.target.files);
